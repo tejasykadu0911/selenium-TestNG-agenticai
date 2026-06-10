@@ -1,0 +1,38 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<!--
+  parallel="methods"  → each @Test method runs in its own thread (max parallelism)
+  parallel="classes"  → each test class runs in its own thread
+  parallel="tests"    → each <test> block runs in its own thread
+  thread-count        → number of parallel browser sessions
+-->
+<suite name="Selenium-TestNG Suite" parallel="methods" thread-count="3" verbose="1">
+
+    <listeners>
+        <listener class-name="framework.listeners.TestListener"/>
+    </listeners>
+
+    <!-- Override browser/headless per <test> block if needed -->
+    <test name="Chrome Tests">
+        <parameter name="browser"   value="chrome"/>
+        <parameter name="headless"  value="false"/>
+        <classes>
+            <class name="framework.tests.SampleTest"/>
+            <class name="framework.tests.GoogleSearchTest"/>
+        </classes>
+    </test>
+
+    <!--
+    <test name="Firefox Tests">
+        <parameter name="browser"  value="firefox"/>
+        <parameter name="headless" value="true"/>
+        <classes>
+            <class name="framework.tests.SampleTest"/>
+        </classes>
+    </test>
+    -->
+
+</suite>
+
+
+
