@@ -51,7 +51,7 @@ public abstract class BasePage {
         return driver().getCurrentUrl();
     }
 
-    public WebElement getWeElementByXpath(By locator){
+    public WebElement getWebElementByXpath(By locator){
         return driver().findElement(locator);
     }
 }

@@ -17,8 +17,8 @@
         <parameter name="browser"   value="chrome"/>
         <parameter name="headless"  value="false"/>
         <classes>
-            <class name="framework.tests.SampleTest"/>
-            <class name="framework.tests.GoogleSearchTest"/>
+            <class name="framework.tests.StudentPageTest"/>
+            <class name="framework.tests.HbpHomePageTest"/>
         </classes>
     </test>
 
