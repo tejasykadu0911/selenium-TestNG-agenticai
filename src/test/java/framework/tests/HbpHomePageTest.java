@@ -1,6 +1,7 @@
 package framework.tests;
 
 import framework.base.BaseTest;
+import framework.config.ConfigReader;
 import framework.pages.HbpHomePage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -28,6 +29,6 @@ public class HbpHomePageTest extends BaseTest  {
 
     @Test(description = "open sign in page")
     public void openSigninPage() throws InterruptedException {
-        homePage.signIn("tejas988@gmail.com","Password@123");
+        homePage.signIn(ConfigReader.get("username"), ConfigReader.get("password"));
     }
 }

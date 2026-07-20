@@ -21,8 +21,6 @@ public class HbpHomePage extends BasePage{
     private static final By USERNAME                   = By.xpath("//input[@id='sign-in-form-username' and @name='username']");
     private static final By PASSWORD                   = By.xpath("//input[@id='sign-in-form-password' and @name='password']");
     private static final By SIGNINUSER                 = By.xpath("//a[@class='signin-form__register-link' and text()='New? Register for a free account']/preceding-sibling::button");
-    private static final By COOKIEACCEPT = By.xpath("//button[@aria-label='Accept cookie notice']");
-
     // ── Search ───────────────────────────────────────────────────────────────
     private static final By SEARCH_INPUT  = By.id("search-coveo-input-top-navigation-search-box");
     private static final By SEARCH_FORM   = By.cssSelector("[data-testid='search-coveo-form']");
@@ -82,8 +80,14 @@ public class HbpHomePage extends BasePage{
     }
 
     public void dismissCookieBannerIfPresent() {
+        // Try the primary aria-label locator first, then fall back to button text
         try {
             WebElement btn = driver().findElement(COOKIE_ACCEPT_BTN);
+            if (btn.isDisplayed()) { btn.click(); return; }
+        } catch (NoSuchElementException ignored) {}
+        try {
+            WebElement btn = driver().findElement(
+                    By.xpath("//button[normalize-space()='Accept']"));
             if (btn.isDisplayed()) btn.click();
         } catch (NoSuchElementException ignored) {}
     }
@@ -126,17 +130,20 @@ public class HbpHomePage extends BasePage{
         click(MOBILE_MENU_TOGGLE);
     }
 
+
+    private void acceptCookies(){
+        dismissCookieBannerIfPresent();
+    }
+
     public void signIn(String userName, String password){
         acceptCookies();
         click(SIGN_In);
-        getWeElementByXpath(USERNAME).sendKeys(userName);
-        getWeElementByXpath(PASSWORD).sendKeys(password);
+        // The sign-in page may show its own cookie banner; dismiss before interacting
+        dismissCookieBannerIfPresent();
+        type(USERNAME, userName);
+        dismissCookieBannerIfPresent();
+        type(PASSWORD, password);
         click(SIGNINUSER);
-
-    }
-
-    private void acceptCookies(){
-       WaitUtil.untilClickable(COOKIEACCEPT).click();
     }
 
 
